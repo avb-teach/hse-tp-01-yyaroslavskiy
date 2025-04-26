@@ -11,12 +11,33 @@ copy(){
     cp -p "$1" "$file_route"
 }
 
-if [ -z "$3" ]; then
-    find "$1" -type f -print0 | while read -r -d '' object; do
-    	copy "$object" "$2"
+input=""
+output=""
+depth=""
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+	--max_depth)
+	    depth="$2"
+	    shift 2
+	    ;;
+	*)
+	    if [[ -z "$input" ]]; then
+		input="$1"
+	    else
+		output="$1"
+	    fi
+	    shift
+	    ;;
+    esac
+done
+
+if [ -n "$depth" ]; then
+    find "$input" -maxdepth "$depth" -type f -print0 | while read -r -d '' object; do
+    	copy "$object" "$output"
     done
 else
-    find "$1" -maxdepth "$3" -type f -print0 | while read r -d '' object; do
-    	copy "$object" "$2"
+    find "$input" -type f -print0 | while read r -d '' object; do
+    	copy "$object" "$output"
     done
 fi
