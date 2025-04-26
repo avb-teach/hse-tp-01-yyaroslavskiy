@@ -11,26 +11,9 @@ copy(){
     cp -p "$1" "$file_route"
 }
 
-input=""
-output=""
-depth=""
-
-while [[ $# -gt 0 ]]; do
-    case "$1" in
-	--max_depth)
-	    depth="$2"
-	    shift 2
-	    ;;
-	*)
-	    if [[ -z "$input" ]]; then
-		input="$1"
-	    else
-		output="$1"
-	    fi
-	    shift
-	    ;;
-    esac
-done
+input="$1"
+output="$2"
+depth="$4"
 
 if [ -n "$depth" ]; then
     find "$input" -maxdepth "$depth" -type f -print0 | while read -r -d '' object; do
