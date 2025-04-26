@@ -18,7 +18,7 @@ if [ -z "$3" ]; then
         copy "$object" "$2"
     done
 else
-    find "$1" -maxdepth "$3" -type f -print0 | while IFS= read -r -d '' object; do
+    find "$1" -maxdepth "$4" -type f -print0 | while IFS= read -r -d '' object; do
         copy "$object" "$2"
     done
 fi
