@@ -2,14 +2,20 @@
 
 copy() {
     local name=$(basename "$1")
+    local left="${name%.*}"
+    local right="${name##*.}"
     local i=1
     local file_route="$2/$name"
-    
+
     while [[ -e "$file_route" ]]; do
-        file_route="$2/${name}.$i"
+	if [[ "$left" == "$right" ]]; then
+            file_route="$2/${left}$i"
+	else
+	    file_route="$2/${left}${i}.${right}"
         ((i++))
+	fi
     done
-    
+ 
     cp -p "$1" "$file_route"
 }
 
